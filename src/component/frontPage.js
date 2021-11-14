@@ -24,10 +24,20 @@ export function Front(){
         const [data,setData]=useState([])
         const [search,setSearch]=useState("")
         const [searchtitle,setSearchTitle]=useState("")
+        const [detail,setDetail]=useState([])
 
 
         const [open, setOpen] = React.useState(false);
-        const handleOpen = () => setOpen(true);
+        const handleOpen = (id) => {
+            axios.get(`http://localhost:8000/job/${id}`).then((data)=>{
+            
+             setDetail(data)
+             
+        })
+
+        console.log("data",id)
+            setOpen(true)
+        };
         const handleClose = () => setOpen(false);
       
 
@@ -101,7 +111,7 @@ export function Front(){
                         <p>{e.title}</p>
                         <p>{e.description}</p>
                         <button onClick={()=>{
-                            
+                            handleOpen(e.id)
                         }} className="viewDetail" style={{float:"right"}}>View Detail</button>
                         </div>
                     </div>)}
@@ -116,12 +126,12 @@ export function Front(){
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+            {detail.map(e=><div>
+                {<p>Title: <span>{e.title}</span></p>}
+                {<p>City: <span>{e.city}</span></p>}
+                {<p>City: <span>{e.city}</span></p>}
+                {<p>Description: <span>{e.description}</span></p>}
+            </div>)}
         </Box>
       </Modal>
     </div>
