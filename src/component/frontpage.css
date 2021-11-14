@@ -59,3 +59,28 @@
     border: hidden;
 
 }
+.dataDiv{
+    width: 500px;
+    height: 200px;
+    background-color: white;
+    display: flex;
+    padding: 20px;
+    border-radius: 10px;
+}
+.jobData{
+    width: 1050px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2,500px);
+    grid-gap:50px;
+    margin-top: 100px;
+}
+.viewDetail{
+    float:right;
+    border: 1px solid pink;
+    color:pink;
+    width :87px;
+height: 21px;
+background-color: white;
+
+}

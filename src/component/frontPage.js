@@ -1,8 +1,16 @@
 
 import "./frontpage.css"
-import SearchIcon from '@mui/icons-material/Search';
-import FlagIcon from '@mui/icons-material/Flag';
+import {useEffect, useState} from "react"
+import axios from "axios"
 export function Front(){
+        const [data,setData]=useState([])
+
+       useEffect(()=>{
+           axios.get("http://localhost:8000/job").then((data)=>{
+               console.log(data.data.job)
+                setData(data.data.job)
+           })
+       },[])
         return <div className="mainDiv">
             <div className="navbar">
                 <div className="navbar1stDiv">
@@ -20,17 +28,29 @@ export function Front(){
 
                 </div>
                 <div className="searchDiv">
-                    <div>
-                    <SearchIcon/>
+                    
+                    
                     <input className="titleInput" type="text" placeholder="search for title"/>
-                    </div>
-                    <div>
-                        <FlagIcon/>
+                    
+                    
+                        
                         <input className="titleInput" type="text" placeholder="search with location"/>
-                    </div>
+                
                     
                     <button className="searchButton">Search</button>
                 </div>
+            </div>
+            <div className="jobData">
+                    {data.map(e=><div className="dataDiv" key={e.id}>
+                        <div>
+                        <img src={e.iamge} alt="error"/>
+                        </div>
+                        <div style={{marginLeft:"10px"}}>
+                        <p>{e.title}</p>
+                        <p>{e.description}</p>
+                        <button className="viewDetail" style={{float:"right"}}>View Detail</button>
+                        </div>
+                    </div>)}
             </div>
 
         </div>
