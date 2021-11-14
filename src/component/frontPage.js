@@ -5,6 +5,7 @@ import axios from "axios"
 export function Front(){
         const [data,setData]=useState([])
         const [search,setSearch]=useState("")
+        const [searchtitle,setSearchTitle]=useState("")
 
        useEffect(()=>{
            axios.get("http://localhost:8000/job").then((data)=>{
@@ -22,6 +23,16 @@ export function Front(){
              setData(newData)
         })
        }
+
+       const handleSearch1=(search)=>{
+           
+        axios.get(`http://localhost:8000/job`).then((data1)=>{
+         
+          var newData1=data1.data.job.filter((e)=>e.title===search) 
+          console.log("newData",newData1)
+          setData(newData1)
+     })
+    }
         return <div className="mainDiv">
             <div className="navbar">
                 <div className="navbar1stDiv">
@@ -41,8 +52,11 @@ export function Front(){
                 <div className="searchDiv">
                     
                     
-                    <input  className="titleInput" type="text" placeholder="search for title"/>
-                    
+                    <input onChange={(e)=>{setSearchTitle(e.target.value)}} className="titleInput" type="text" placeholder="search for title"/>
+                    <button onClick={()=>{
+                        handleSearch1(searchtitle)
+                        setSearch("")
+                    }} className="searchButton">Search by Tilte</button>
                     
                         
                         <input onChange={(e)=>{setSearch(e.target.value)}} className="titleInput" type="text" placeholder="search with location"/>
@@ -51,7 +65,7 @@ export function Front(){
                     <button onClick={()=>{
                         handleSearch(search)
                         setSearch("")
-                    }} className="searchButton">Search</button>
+                    }} className="searchButton">Search by City</button>
                 </div>
             </div>
             <div className="jobData">
