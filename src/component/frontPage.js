@@ -4,6 +4,7 @@ import {useEffect, useState} from "react"
 import axios from "axios"
 export function Front(){
         const [data,setData]=useState([])
+        const [search,setSearch]=useState("")
 
        useEffect(()=>{
            axios.get("http://localhost:8000/job").then((data)=>{
@@ -11,6 +12,16 @@ export function Front(){
                 setData(data.data.job)
            })
        },[])
+
+       const handleSearch=(search)=>{
+           
+           axios.get(`http://localhost:8000/job`).then((data1)=>{
+            
+             var newData=data1.data.job.filter((e)=>e.city===search) 
+             console.log("newData",newData)
+             setData(newData)
+        })
+       }
         return <div className="mainDiv">
             <div className="navbar">
                 <div className="navbar1stDiv">
@@ -30,14 +41,17 @@ export function Front(){
                 <div className="searchDiv">
                     
                     
-                    <input className="titleInput" type="text" placeholder="search for title"/>
+                    <input  className="titleInput" type="text" placeholder="search for title"/>
                     
                     
                         
-                        <input className="titleInput" type="text" placeholder="search with location"/>
+                        <input onChange={(e)=>{setSearch(e.target.value)}} className="titleInput" type="text" placeholder="search with location"/>
                 
                     
-                    <button className="searchButton">Search</button>
+                    <button onClick={()=>{
+                        handleSearch(search)
+                        setSearch("")
+                    }} className="searchButton">Search</button>
                 </div>
             </div>
             <div className="jobData">
